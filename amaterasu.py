@@ -59,15 +59,15 @@ import threading
 import time
 import random
 
-class Fork:
+class Chopstick:
     def __init__(self):
         self.lock = threading.Lock()
 
 class Philosopher(threading.Thread):
-    def __init__(self, left_fork, right_fork):
+    def __init__(self, left_chopstick, right_chopstick):
         threading.Thread.__init__(self)
-        self.left_fork = left_fork
-        self.right_fork = right_fork
+        self.left_chopstick = left_chopstick
+        self.right_chopstick = right_chopstick
 
     def run(self):
         while True:
@@ -79,14 +79,14 @@ class Philosopher(threading.Thread):
         time.sleep(random.uniform(1, 3))
 
     def eat(self):
-        with self.left_fork.lock:
-            with self.right_fork.lock:
+        with self.left_chopstick.lock:
+            with self.right_chopstick.lock:
                 print(f"{self.name} is eating")
                 time.sleep(random.uniform(1, 3))
 
 if __name__ == "__main__":
-    forks = [Fork() for _ in range(5)]
-    philosophers = [Philosopher(forks[i], forks[(i + 1) % 5]) for i in range(5)]
+    chopsticks = [Chopstick() for _ in range(5)]
+    philosophers = [Philosopher(chopsticks[i], chopsticks[(i + 1) % 5]) for i in range(5)]
 
     for philosopher in philosophers:
         philosopher.start()
